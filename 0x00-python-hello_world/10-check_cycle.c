@@ -1,27 +1,36 @@
+/*
+ * File: 10-check_cycle.c
+ * Auth: Brennan D Baraban
+ */
+
+#include <stdlib.h>
 #include "lists.h"
 
 /**
- *check_cycle - checks if there a loop in a linked list
- *It uses the floyed-cycle algorithm
- *@list: head of the linked least
- *Return: 1 if there is a loop, 0 if there isn't
+ * check_cycle - Checks if a singly-linked list contains a cycle.
+ * @list: A singly-linked list.
+ *
+ * Return: If there is no cycle - 0.
+ *         If there is a cycle - 1.
  */
 int check_cycle(listint_t *list)
 {
-	listint_t *fast = NULL, *slow = NULL;
+	listint_t *turtle, *hare;
 
-	if (!list)
+	if (list == NULL || list->next == NULL)
 		return (0);
-	fast = list->next;
-	slow = list;
 
-	while (fast && fast->next)
+	turtle = list->next;
+	hare = list->next->next;
+
+	while (turtle && hare && hare->next)
 	{
-		/*if there is a loop they would crush*/
-		if (fast == slow)
+		if (turtle == hare)
 			return (1);
-		fast = fast->next->next;
-		slow = slow->next;
+
+		turtle = turtle->next;
+		hare = hare->next->next;
 	}
+
 	return (0);
 }
